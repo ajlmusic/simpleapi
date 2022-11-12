@@ -25,9 +25,9 @@ $ npm run start
 
 ### Endpoints
 
-/api
+-  /api
 
 protected routes:
 
-/api/categories
-/api/files
+-  /api/categories
+-  /api/files
