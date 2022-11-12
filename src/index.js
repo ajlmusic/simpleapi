@@ -1,7 +1,7 @@
 /**
  * Simple API with Express and JWT
  * @author Andrew Lewis <andrew.lewis@nehetek.com>
- * 
+ *
  */
 
 import dotenv from "dotenv";
@@ -9,8 +9,9 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import cors from "cors";
-import jwt from "jsonwebtoken";
-import crypto from "crypto";
+import { generateAccessToken } from "./middleware/generateToken.js";
+import { authenticateToken } from "./middleware/authenticateToken.js";
+import { newUserID } from "./middleware/generateUserId.js";
 
 dotenv.config();
 
@@ -20,34 +21,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.options("*", cors());
-
-let randomNum = Math.random();
-let newUserID = crypto.randomBytes(16).toString("hex"); 
-
-// TOKEN Generation and Verification
-
-// generate token
-function generateAccessToken(username) {
-  return jwt.sign({user: username}, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
-}
-
-// verify token
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (token == null) return res.sendStatus(401)
-
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-    console.log(err)
-
-    if (err) return res.sendStatus(403)
-
-    req.user = user
-
-    next()
-  })
-}
 
 // endpoints
 app.get("/api", (req, res) => {
@@ -67,7 +40,7 @@ app.get("/api/categories", authenticateToken, (req, res) => {
   res.json(categories);
 });
 
-app.get("/api/files", authenticateToken,function (req, res) {
+app.get("/api/files", authenticateToken, function (req, res) {
   let options = {
     root: path.join(__dirname),
   };
