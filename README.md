@@ -22,3 +22,12 @@ $ npm run dev
 $ npm run start
 
 ```
+
+### Endpoints
+
+/api
+
+protected routes:
+
+/api/categories
+/api/files
