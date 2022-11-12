@@ -38,9 +38,14 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
-# Dependency directories
+# Dependencies
 node_modules/
 jspm_packages/
+node_modules
+package-lock.json
+yarn.lock
+!/yarn.lock
+test/node_modules
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
@@ -128,3 +133,4 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
