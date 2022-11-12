@@ -50,14 +50,14 @@ function authenticateToken(req, res, next) {
 }
 
 // endpoints
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   let msg = { msg: "Welcome to the Files API" };
   const token = generateAccessToken(newUserID);
 
   res.json({ msg, token });
 });
 
-app.get("/categories", (req, res) => {
+app.get("/api/categories", authenticateToken, (req, res) => {
   let categories = [
     { id: 1, name: "books" },
     { id: 2, name: "colleges" },
@@ -67,7 +67,7 @@ app.get("/categories", (req, res) => {
   res.json(categories);
 });
 
-app.get("/files", function (req, res) {
+app.get("/api/files", authenticateToken,function (req, res) {
   let options = {
     root: path.join(__dirname),
   };
